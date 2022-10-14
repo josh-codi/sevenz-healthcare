@@ -15,6 +15,7 @@
                         <label class="form-check-label" for="exampleCheck1">{{scan?.title}}</label>
                     </div>
                 </aside>
+                <Shimmer v-if="xRay.length === 0"/>
 
                 <hr>
 
@@ -28,6 +29,7 @@
                     </div>
 
                 </aside>
+                <Shimmer v-if="ultraScan.length === 0"/>
 
                 <hr>
 
@@ -67,48 +69,43 @@
 import { onUpdated, ref, watch } from 'vue'
 import { useMainStore } from '../stores/mainStore'
 import axios from 'axios';
+import Shimmer from '../components/Shimmer.vue';
 export default {
-    setup(){
+    setup() {
         const store = useMainStore();
         const xRay = ref(store.data.xRay);
         const ultraScan = ref(store.data.ultrasound);
-
         const loading = ref(false);
-
-
-        const investigations= ref([])
+        const investigations = ref([]);
         const formData = ref({
             investigations: [],
             ctscan: "",
             mri: "",
             developer: "Developer"
         });
-
-        watch((store), ()=>{
+        watch((store), () => {
             xRay.value = store.data.xRay;
             ultraScan.value = store.data.ultrasound;
-        })
-
+        });
         const save = () => {
             loading.value = true;
-            
             axios.post("https://testdrive.kompletecare.com/api/investigations", formData.value, store.config)
-            .then(res=>{
+                .then(res => {
                 loading.value = false;
                 setTimeout(() => {
                     store.set("alert", { on: true, message: "Saved Successful" });
-                }, 1000);                
+                }, 1000);
             })
-            .catch(err=>{
+                .catch(err => {
                 loading.value = false;
                 setTimeout(() => {
                     store.set("alert", { on: true, message: "Please make sure you select any for each section !" });
-                }, 1000);  
-            })
-        }
-
-        return { xRay, ultraScan, formData, save, investigations, loading }
-    }
+                }, 1000);
+            });
+        };
+        return { xRay, ultraScan, formData, save, investigations, loading };
+    },
+    components: { Shimmer }
 }
 </script>
 
