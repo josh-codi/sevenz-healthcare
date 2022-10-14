@@ -49,6 +49,7 @@ export default {
 
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     background: rgba(0, 0, 0, 0.418);
 }
 
@@ -60,7 +61,7 @@ export default {
     animation-duration: 1s;
     animation-delay: 0s;
     width: 400px;
-    height: 150px;
+    /* height: 150px; */
 
     display: flex;
     flex-direction: column;

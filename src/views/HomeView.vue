@@ -11,11 +11,12 @@
                 <h5 class="head">X-Ray</h5>
                 <aside class="xRay-inner">
                     <div v-for="scan in xRay" :key="scan" class="form-check">
-                        <input v-model="formData.investigations" type="checkbox" class="form-check-input" :value="scan?.id" :id="scan.id">
+                        <input v-model="formData.investigations" type="checkbox" class="form-check-input"
+                            :value="scan?.id" :id="scan.id">
                         <label class="form-check-label" for="exampleCheck1">{{scan?.title}}</label>
                     </div>
                 </aside>
-                <Shimmer v-if="xRay.length === 0"/>
+                <Shimmer v-if="xRay.length === 0" />
 
                 <hr>
 
@@ -23,13 +24,14 @@
                     <h5 class="head">Ultrasound Scan</h5>
                     <div class="ultraScan-inner">
                         <div v-for="scan in ultraScan" :key="scan" class="form-check">
-                            <input v-model="formData.investigations" type="checkbox" class="form-check-input" :value="scan?.id" :id="scan.id">
+                            <input v-model="formData.investigations" type="checkbox" class="form-check-input"
+                                :value="scan?.id" :id="scan.id">
                             <label class="form-check-label" for="exampleCheck1">{{scan?.title}}</label>
                         </div>
                     </div>
 
                 </aside>
-                <Shimmer v-if="ultraScan.length === 0"/>
+                <Shimmer v-if="ultraScan.length === 0" />
 
                 <hr>
 
@@ -91,17 +93,28 @@ export default {
             loading.value = true;
             axios.post("https://testdrive.kompletecare.com/api/investigations", formData.value, store.config)
                 .then(res => {
-                loading.value = false;
-                setTimeout(() => {
-                    store.set("alert", { on: true, message: "Saved Successful" });
-                }, 1000);
-            })
+                    loading.value = false;
+                    setTimeout(() => {
+                        store.set("alert", { on: true, message: "Saved Successful" });
+                        
+                        // Clearing State.........
+                        formData.value = {
+                            investigations: [],
+                            ctscan: "",
+                            mri: "",
+                            developer: "Developer"
+                        }
+                    }, 800);
+                })
                 .catch(err => {
-                loading.value = false;
-                setTimeout(() => {
-                    store.set("alert", { on: true, message: "Please make sure you select any for each section !" });
-                }, 1000);
-            });
+                    loading.value = false;
+                    setTimeout(() => {
+                        store.set("alert", { on: true, message: "Please make sure you select any for each section !" });
+                    }, 1000);
+                });
+
+
+
         };
         return { xRay, ultraScan, formData, save, investigations, loading };
     },
@@ -120,27 +133,33 @@ export default {
     border-radius: 10px;
     box-shadow: 0px 0px 5px rgba(211, 211, 211, 0.692);
 }
-.home .x-ray .xRay-inner, .home .ultraScan .ultraScan-inner{
+
+.home .x-ray .xRay-inner,
+.home .ultraScan .ultraScan-inner {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
-.home .detailContent .type{
+
+.home .detailContent .type {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
-.detailContent .type .form-group{
+
+.detailContent .type .form-group {
     margin: 0.5rem;
 }
-.submitBtn{
+
+.submitBtn {
     display: flex;
     justify-content: flex-end;
 }
-button{
+
+button {
     background: #382F90;
     color: white;
 }
 
-.loading{
+.loading {
     position: fixed;
     width: 100%;
     height: 100vh;
@@ -153,6 +172,7 @@ button{
     justify-content: center;
     align-content: center;
 }
+
 .textLoading {
     height: fit-content;
     margin: auto;
@@ -162,11 +182,20 @@ button{
 </style>
 
 <style scoped>
-@media only screen and (max-width: 850px){
-        .home .x-ray .xRay-inner,
-            .home .ultraScan .ultraScan-inner {
-                grid-template-columns: repeat(2, 1fr);
-            }
-    }
+@media only screen and (max-width: 1024px) {
 
+    .home .x-ray .xRay-inner,
+    .home .ultraScan .ultraScan-inner {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+@media only screen and (max-width: 850px) {
+
+    .home .x-ray .xRay-inner,
+    .home .ultraScan .ultraScan-inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 </style>

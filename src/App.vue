@@ -77,7 +77,7 @@ export default {
     min-width: 70px;
   }
 }
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 700px) {
   *{
     font-size: 0.8rem;
   }
