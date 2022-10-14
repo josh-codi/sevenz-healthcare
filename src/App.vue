@@ -1,29 +1,39 @@
 <template>
   <div class="main">
+
+    <!-- Left Part of the page -->
     <div class="sidebar">
+      <!-- Sidebar component -->
       <Sidebar />
     </div>
+
+    <!-- Right side of the page -->
     <div class="rightSide">
+
+      <!-- Header -->
       <div class="header">
         <Header />
       </div>
+
+      <!-- Main Body -->
       <div class="mainBody">
         <div class="mainContent">
           <div class="mainInnerContent">
-            <!-- <button @click="login">Login</button> -->
             <RouterView />
           </div>
         </div>
       </div>
+
     </div>
+
+    <!-- Alert Component  -->
     <Alert/>
   </div>
 
 </template>
 
 <script>
-import { onMounted, ref } from '@vue/runtime-core';
-// import { RouterLink, RouterView } from "vue-router";
+import { onMounted } from '@vue/runtime-core';
 import Header from "./components/Header.vue";
 import Sidebar from "./components/Sidebar.vue";
 import axios from 'axios'
@@ -37,6 +47,8 @@ export default {
     const isAlert = store.isAlert.on
 
     onMounted(()=>{
+
+      // Loging in for access token ............................
       axios.post("https://testdrive.kompletecare.com/api/login", {
         email: "tester@kompletecare.com",
         password: "password"

@@ -24,43 +24,27 @@
             <aside></aside>
             <div></div>
         </div>
-        <div class="form-group">
+        <div class="form-group h">
             <aside></aside>
             <div></div>
         </div>
-        <div class="form-group">
+        <div class="form-group h">
             <aside></aside>
             <div></div>
         </div>
-        <div class="form-group">
+        <div class="form-group h">
             <aside></aside>
             <div></div>
         </div>
-        <div class="form-group">
+        <div class="form-group h">
             <aside></aside>
             <div></div>
         </div>
-        <div class="form-group">
+        <div class="form-group h">
             <aside></aside>
             <div></div>
         </div>
-        <div class="form-group">
-            <aside></aside>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <aside></aside>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <aside></aside>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <aside></aside>
-            <div></div>
-        </div>
-        <div class="form-group">
+        <div class="form-group h">
             <aside></aside>
             <div></div>
         </div>
@@ -125,10 +109,18 @@ export default {
         background: lightgray;
     }
 }
+@media only screen and (max-width: 1024px) {
+    .shimmer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 
 @media only screen and (max-width: 850px) {
     .shimmer {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .h{
+        display: none !important;
     }
 }
 </style>

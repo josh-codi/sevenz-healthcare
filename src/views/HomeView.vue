@@ -1,14 +1,19 @@
 <template>
     <div class="home">
+        <!-- Headen of the page -->
         <div class="headen">
             <h2 class="head">Update Patient Medical Record</h2>
             <small class="text-secondary">
                 Click the tabs to view and edit patient medical details
             </small>
         </div>
+
+        <!-- Form for patient details -->
         <form @submit.prevent="save" class="detailContent">
             <div class="x-ray container">
                 <h5 class="head">X-Ray</h5>
+
+                <!-- All X-Ray details to select from -->
                 <aside class="xRay-inner">
                     <div v-for="scan in xRay" :key="scan" class="form-check">
                         <input v-model="formData.investigations" type="checkbox" class="form-check-input"
@@ -16,12 +21,16 @@
                         <label class="form-check-label" for="exampleCheck1">{{scan?.title}}</label>
                     </div>
                 </aside>
+                
+                <!-- Shimmer display on waiting result  -->
                 <Shimmer v-if="xRay.length === 0" />
 
                 <hr>
 
                 <aside class="ultraScan">
                     <h5 class="head">Ultrasound Scan</h5>
+
+                    <!-- All X-Ray details to select from -->
                     <div class="ultraScan-inner">
                         <div v-for="scan in ultraScan" :key="scan" class="form-check">
                             <input v-model="formData.investigations" type="checkbox" class="form-check-input"
@@ -31,8 +40,11 @@
                     </div>
 
                 </aside>
+
+                <!-- Shimmer display on waiting result  -->
                 <Shimmer v-if="ultraScan.length === 0" />
 
+                <br>
                 <hr>
 
                 <aside class="type">
@@ -55,10 +67,14 @@
                 </aside>
             </div>
             <br>
+
+            <!-- Submit Button -->
             <div class="submitBtn container">
                 <button type="submit" class="btn">Save and Send</button>
             </div>
         </form>
+
+        <!-- Loading Model -->
         <div class="loading" v-if="loading">
             <div class="textLoading">
                 <h3 class="text-whtie">Loading ...</h3>
@@ -68,27 +84,33 @@
 </template>
 
 <script>
-import { onUpdated, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useMainStore } from '../stores/mainStore'
 import axios from 'axios';
 import Shimmer from '../components/Shimmer.vue';
+
 export default {
     setup() {
         const store = useMainStore();
         const xRay = ref(store.data.xRay);
         const ultraScan = ref(store.data.ultrasound);
         const loading = ref(false);
-        const investigations = ref([]);
+
+        // Form data for submission .................
         const formData = ref({
             investigations: [],
             ctscan: "",
             mri: "",
             developer: "Developer"
         });
+
+        // Watching Store value change...............
         watch((store), () => {
             xRay.value = store.data.xRay;
             ultraScan.value = store.data.ultrasound;
         });
+
+        // Function for Saving .......................
         const save = () => {
             loading.value = true;
             axios.post("https://testdrive.kompletecare.com/api/investigations", formData.value, store.config)
@@ -116,7 +138,7 @@ export default {
 
 
         };
-        return { xRay, ultraScan, formData, save, investigations, loading };
+        return { xRay, ultraScan, formData, save, loading };
     },
     components: { Shimmer }
 }
@@ -138,6 +160,10 @@ export default {
 .home .ultraScan .ultraScan-inner {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+}
+
+.xRay-inner .form-check, .ultraScan-inner .form-check{
+    margin: 0.5rem 0 0.5rem 0;
 }
 
 .home .detailContent .type {
